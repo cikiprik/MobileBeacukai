@@ -50,5 +50,9 @@ class Utils {
         return "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/ServiceJenisBarang"
     }
     
+    func urlDutyCalc() -> String {
+        return "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/KalkulatorAndroid"
+    }
+    
     
 }

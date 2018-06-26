@@ -274,13 +274,54 @@ class DutyController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if let calcDutyController = segue.destination as? DutyCalcController {
-                    calcDutyController.selectedJnsImpor = selectedJnsImpor
-                
-                
+                // send data param
+                calcDutyController.selectedJnsImpor = selectedJnsImpor
                 calcDutyController.selectedJnsBrg = pickerDataJnsBrg[pickerJnsBrg.selectedRow(inComponent: 0)]
-                
                 calcDutyController.selectedJnsValuta = pickerDataJnsValas[pickerJnsValas.selectedRow(inComponent: 0)]
+                if(txtFob.text == nil || (txtFob.text?.isEmpty)!){
+                    calcDutyController.fob = 0
+                } else {
+                    calcDutyController.fob = Double(txtFob.text!)!
+                }
+                if(txtInsurance.text == nil || (txtInsurance.text?.isEmpty)!){
+                    calcDutyController.insurance = 0
+                } else {
+                    calcDutyController.insurance = Double(txtInsurance.text!)!
+                }
                 
+                if(txtFreight.text == nil || (txtFreight.text?.isEmpty)!){
+                    calcDutyController.freight = 0
+                } else {
+                    calcDutyController.freight = Double(txtFreight.text!)!
+                }
+                // impor umum
+                if(imporUmum){
+                    if(txtBM.text == nil || (txtBM.text?.isEmpty)!){
+                        calcDutyController.bm = 0
+                    } else {
+                        calcDutyController.bm = Double(txtBM.text!)!
+                    }
+                    
+                    if(txtPPN.text == nil || (txtPPN.text?.isEmpty)!){
+                        calcDutyController.ppn = 0
+                    } else {
+                        calcDutyController.ppn = Double(txtPPN.text!)!
+                    }
+                    
+                    if(txtPPH.text == nil || (txtPPH.text?.isEmpty)!){
+                        calcDutyController.pph = 0
+                    } else {
+                        calcDutyController.pph = Double(txtPPH.text!)!
+                    }
+                    
+                    if(txtPPnBM.text == nil || (txtPPnBM.text?.isEmpty)!){
+                        calcDutyController.ppnbm = 0
+                    } else {
+                        calcDutyController.ppnbm = Double(txtPPnBM.text!)!
+                    }
+                }
+                
+                calcDutyController.npwp = switchNpwp.isOn
                 
             }
             
