@@ -28,7 +28,7 @@ class CurrencyController: UIViewController {
         
         
     // find kurs
-        let tglkurs = tglKurs.date
+       // tglkurs = tglKurs.date
         //print(tglkurs)
         
         

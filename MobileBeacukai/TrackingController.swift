@@ -11,6 +11,8 @@ import CryptoSwift
 
 class TrackingController: UIViewController {
 
+    @IBOutlet weak var txtVwTracking: UITextView!
+    @IBOutlet weak var txtAwb: UITextField!
     @IBOutlet weak var btnTracking: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +26,11 @@ class TrackingController: UIViewController {
         let util = Utils()
          let token = util.encrypt()
         print(token)
-        let tgl = "17-05-2018"
+        let awb = txtAwb.text
     
-        var request = URLRequest(url: URL(string: "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/kurs")!)
+        var request = URLRequest(url: URL(string: "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/TrackingBarangKiriman")!)
         request.httpMethod = "POST"
-        let postString = "tglKurs=\(tgl)&src=\(token)"
+        let postString = "par=\(awb ?? "-")&src=\(token)"
         request.httpBody = postString.data(using: .utf8)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data, error == nil else {
@@ -43,18 +45,22 @@ class TrackingController: UIViewController {
             
 //            let responseString = String(data: data, encoding: .utf8)
             
-            guard let kurs = try? JSONDecoder().decode(Kurs.self, from: data) else {
-                print("Error: Couldn't decode data into Blog")
+            guard let dataBangkir = try? JSONDecoder().decode(BarangKiriman.self, from: data) else {
+                print("Error: Couldn't decode data ")
                 return
             }
             
-            print("kurs: \(kurs.noSkep)")
-            print("kurs: \(kurs.tglSkep)")
-            
-            print("details:")
-            for detail in kurs.details {
-                print("- \(detail.valuta)")
-            }
+            print("kurs: \(dataBangkir.success)")
+            print("kurs: \(dataBangkir.message)")
+//            if(dataBangkir.success == "true"){
+//                self.txtVwTracking.text  = "Data Ada"
+//            } else {
+//                self.txtVwTracking.text = "Data Tidak Ditemukan"
+//            }
+//            print("details:")
+//            for detail in dataBangkir.details {
+//                print("- \(detail.namaPemberitahu)")
+//            }
         }
         task.resume()
     
@@ -65,27 +71,36 @@ class TrackingController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    struct Kurs: Decodable {
-        let noSkep: String
-        let tglSkep: String
-        let tglAwal: String
-        let tglAkhir: String
+    struct BarangKiriman: Decodable {
+        let success: String
+        let message: String
+        
         
         let details: [Detail]
         
         enum CodingKeys : String, CodingKey {
-            case noSkep
-            case tglSkep
-            case tglAwal
-            case tglAkhir
+            case success
+            case message
             case details = "detail"
         }
     }
     
     struct Detail: Decodable {
-        let valuta: String
-        let flag: URL
-        let value: String
+        let cif: String
+        let kodeBilling: String
+        let namaPemberitahu: String
+        let namapenerima: String
+        let namapengirim: String
+        let noHouseAwb: String
+        let tglHouseAwb: String
+        let status: [Status]
+    }
+    
+    struct Status: Decodable {
+        let ket: String
+        let kode: String
+        let wk: String
+      
     }
     
     
