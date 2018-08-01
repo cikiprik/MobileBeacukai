@@ -19,7 +19,7 @@ class Utils {
             //print(today)
             let input: Array<UInt8> = Array(today.utf8)
             
-            let keynya = "n3?&9f3%rdJPaQLjXJ6ge$&"
+            let keynya = ""
             let keynyautf8 = keynya.data(using: .utf8)
             
             let hash =  keynyautf8?.sha256()
