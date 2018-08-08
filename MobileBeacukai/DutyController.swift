@@ -96,6 +96,7 @@ class DutyController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         // load data
         initData()
         
+        self.hideKeyboardWhenTappedAround()
     }
 
     override func didReceiveMemoryWarning() {
@@ -469,4 +470,5 @@ class DutyController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
 
  
+    
 }

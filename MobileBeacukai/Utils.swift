@@ -9,6 +9,7 @@
 import Foundation
 import CryptoSwift
 
+
 class Utils {
     func encrypt() -> String {
         do {
@@ -28,11 +29,12 @@ class Utils {
             
             
             let encrypted = try AES(key: key, blockMode: CBC(iv: iv), padding: .pkcs5).encrypt(input)
-            //        let decrypted = try AES(key: key, blockMode: CBC(iv: iv), padding: .pkcs5).decrypt(encrypted)
+//                    let decrypted = try AES(key: key, blockMode: CBC(iv: iv), padding: .pkcs5).decrypt(encrypted)
             
             let hexaString = encrypted.map{String(format: "%02x", $0)}.joined()
             //        print(hexaString)
-            //        let hasil = String(bytes: decrypted, encoding: .utf8)
+//                    let hasil = String(bytes: decrypted, encoding: .utf8)
+//                    print(hasil)
             return hexaString
         } catch {
             print(error)
@@ -53,6 +55,12 @@ class Utils {
     func urlDutyCalc() -> String {
         return "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/KalkulatorAndroid"
     }
+    
+    
+    func urlBtki() -> String {
+        return "https://esbbcext01.beacukai.go.id:9089/RestBeacukaiApi/ServiceHs"
+    }
+    
     
     
 }

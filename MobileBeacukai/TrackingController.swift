@@ -11,17 +11,42 @@ import CryptoSwift
 
 class TrackingController: UIViewController {
 
-    @IBOutlet weak var txtVwTracking: UITextView!
+    @IBOutlet weak var txtVwHasil: UITextView!
     @IBOutlet weak var txtAwb: UITextField!
     @IBOutlet weak var btnTracking: UIButton!
+    
+    @IBOutlet weak var lblCif: UILabel!
+    @IBOutlet weak var lblKdBilling: UILabel!
+    @IBOutlet weak var lblPemberitahu: UILabel!
+    @IBOutlet weak var lblPenerima: UILabel!
+    @IBOutlet weak var lblPengirim: UILabel!
+    
+    
+    @IBOutlet weak var lblJudulCif: UILabel!
+    @IBOutlet weak var lblJudulKdBilling: UILabel!
+    
+    @IBOutlet weak var lblJudulPemberitahu: UILabel!
+    
+    @IBOutlet weak var lblJudulPenerima: UILabel!
+    
+    @IBOutlet weak var lblJudulPengirim: UILabel!
+    @IBOutlet weak var petikKdBIlling: UILabel!
+    @IBOutlet weak var petikPengirim: UILabel!
+    
+    @IBOutlet weak var petikCif: UILabel!
+    @IBOutlet weak var petikPenerima: UILabel!
+    @IBOutlet weak var petikPemberitahu: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        hideFormLabel()
         // Do any additional setup after loading the view.
+        
+       self.hideKeyboardWhenTappedAround()
     }
     
     
     @IBAction func onTracking(_ sender: Any) {
+        
         print("Track")
         let util = Utils()
          let token = util.encrypt()
@@ -52,19 +77,48 @@ class TrackingController: UIViewController {
             
             print("kurs: \(dataBangkir.success)")
             print("kurs: \(dataBangkir.message)")
-//            if(dataBangkir.success == "true"){
-//                self.txtVwTracking.text  = "Data Ada"
-//            } else {
-//                self.txtVwTracking.text = "Data Tidak Ditemukan"
-//            }
-//            print("details:")
-//            for detail in dataBangkir.details {
-//                print("- \(detail.namaPemberitahu)")
-//            }
+            
+         
+            
+            if(dataBangkir.success == "true"){
+                
+                DispatchQueue.main.sync() {
+                    
+                    
+                    self.showFormLabel()
+                    
+                    print("details:")
+                    for detail in dataBangkir.details {
+                        print("- \(detail.namaPemberitahu)")
+                        self.lblCif.text = detail.cif
+                        self.lblPenerima.text = detail.namapenerima
+                        self.lblPengirim.text = detail.namapengirim
+                        self.lblKdBilling.text = detail.kodeBilling
+                        self.lblPemberitahu.text = detail.namaPemberitahu
+                        
+                        // set status
+                        var listStatus = ""
+                        for status in detail.status{
+                            
+                            listStatus.append("("+status.wk+") - "+status.ket+" \n")
+                        }
+                        
+                        self.txtVwHasil.text = listStatus
+                        
+                    }
+                }
+            } else {
+                DispatchQueue.main.sync() {
+                    self.txtVwHasil.text = "Data Tidak Ditemukan"
+                }
+            }
+           
         }
         task.resume()
     
     }
+    
+   
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -103,6 +157,51 @@ class TrackingController: UIViewController {
       
     }
     
+   
+     func hideFormLabel(){
+        lblCif.isHidden = true
+        lblKdBilling.isHidden = true
+        lblPemberitahu.isHidden = true
+        lblPenerima.isHidden = true
+        lblPengirim.isHidden = true
+        txtVwHasil.isHidden = true
+        
+        petikCif.isHidden = true
+        petikKdBIlling.isHidden = true
+        petikPemberitahu.isHidden = true
+        petikPenerima.isHidden = true
+        petikPengirim.isHidden = true
+        
+        lblJudulCif.isHidden = true
+        lblJudulPenerima.isHidden = true
+        lblJudulKdBilling.isHidden = true
+        lblJudulPengirim.isHidden = true
+        lblJudulPemberitahu.isHidden = true
+        
+    }
+    
+    func showFormLabel(){
+        lblCif.isHidden = false
+        lblKdBilling.isHidden = false
+        lblPemberitahu.isHidden = false
+        lblPenerima.isHidden = false
+        lblPengirim.isHidden = false
+        txtVwHasil.isHidden = false
+        
+        petikCif.isHidden = false
+        petikKdBIlling.isHidden = false
+        petikPemberitahu.isHidden = false
+        petikPenerima.isHidden = false
+        petikPengirim.isHidden = false
+        
+        lblJudulCif.isHidden = false
+        lblJudulPenerima.isHidden = false
+        lblJudulKdBilling.isHidden = false
+        lblJudulPengirim.isHidden = false
+        lblJudulPemberitahu.isHidden = false
+        
+    }
+    
     
     
     /*
@@ -114,6 +213,8 @@ class TrackingController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
+   
 
 }
+
+
